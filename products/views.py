@@ -38,6 +38,7 @@ class Add_Product_Api_List(generics.ListCreateAPIView):
     #permission_classes=[MultiPartParser,FormParser]
     queryset=Add_Product.objects.all()
     serializer_class=Add_Product_Serializer
+    
 class Add_Product_Show_All_Api_List(generics.ListAPIView):
     search_fields=['id','product_name','product_description','product_brand__brand_name','product_brand__short_description','product_category__category_name','product_category__description','product_subcategory__subcategory_name','upload_time']
     filter_backends = (filters.SearchFilter,)

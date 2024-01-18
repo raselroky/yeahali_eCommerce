@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
-from phone_field import PhoneField
 from django_countries.fields import CountryField
-
+from django.contrib.auth.models import Group, Permission
+from dashboard.models import Role_And_Permission
 
 GENDER=(
     ('Select','Select'),
@@ -47,10 +47,10 @@ class Registration_All(AbstractBaseUser):
     last_name=models.CharField(max_length=1000,null=True,blank=True)
     email=models.EmailField(null=True,blank=True,unique=True)
     mobile=PhoneNumberField(unique=True, null=False, blank=False,help_text='adjust with country code')
-    country=CountryField(blank_label=("Select Country"))
+    country= models.CharField(max_length=1000,  null=True, choices=CountryField().choices + [('', 'Select Country')])
     address=models.CharField(max_length=1000,null=True,blank=True)
     date_of_joining=models.DateTimeField(auto_now_add=True)
-    role=models.CharField(max_length=1000,choices=ROLE,default='Select')
+    role=models.ForeignKey(Role_And_Permission,on_delete=models.CASCADE,default='Select',null=True,blank=True)
     #Password=models.TextField(null=False,blank=False)
     #Confirm_Password=models.TextField(null=False,blank=False)
 
@@ -79,4 +79,15 @@ class Registration_All(AbstractBaseUser):
     #REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
-        return '('+str(self.role+')')+' '+str(self.email)
+        return str(self.email)
+
+
+class Blacklisted(models.Model):
+    email=models.EmailField(null=True,blank=True,unique=True)
+    is_active=models.BooleanField(default=True)
+    try_count=models.IntegerField(default=0)
+    wrong_password=models.TextField(null=True,blank=True)
+    datetime=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.email)
+    
