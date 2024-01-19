@@ -16,8 +16,7 @@ SECRET_KEY = 'django-insecure-#iusz8-a#64^+lvfl64wj#0*#(u((#uzo7pvcso9d*!zf6nppa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['raselroky.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['raselroky.pythonanywhere.com','127.0.0.1']
 
 # Application definition
 
@@ -33,6 +32,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'phonenumber_field',
     'django_countries',
+    'paypal.standard.ipn',
     'user_management',
     'categories',
     'products',
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'yeahali.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR,"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -154,3 +154,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT',]
 CORS_ALLOW_HEADERS = ['accept','accept-encoding','authorization','content-type','dnt','origin','user-agent','x-csrftoken','x-requested-with',]
+
+
+PAYPAL_RECIEVER_EMAIL='sb-tmz5g29237875@business.example.com'
+PAYPAL_TEST=True

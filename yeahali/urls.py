@@ -12,6 +12,7 @@ urlpatterns = [
     path('contact_us-api/',include('contact_us.urls')),
     path('dashboard-api/',include('dashboard.urls')),
 
+    path('payments-api/',include('payments.urls')),
     #path('api-token-auth/',views.obtain_auth_token,name='api-token-auth')
 ]
 

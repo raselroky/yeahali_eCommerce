@@ -47,7 +47,7 @@ class Registration_All(AbstractBaseUser):
     last_name=models.CharField(max_length=1000,null=True,blank=True)
     email=models.EmailField(null=True,blank=True,unique=True)
     mobile=PhoneNumberField(unique=True, null=False, blank=False,help_text='adjust with country code')
-    country= models.CharField(max_length=1000,  null=True, choices=CountryField().choices + [('', 'Select Country')])
+    country= CountryField()
     address=models.CharField(max_length=1000,null=True,blank=True)
     date_of_joining=models.DateTimeField(auto_now_add=True)
     role=models.ForeignKey(Role_And_Permission,on_delete=models.CASCADE,default='Select',null=True,blank=True)
