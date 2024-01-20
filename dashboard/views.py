@@ -7,13 +7,14 @@ from rest_framework import filters
 from .models import Role_And_Permission,Action,Update_Message
 from .serializers import Role_And_Permission_Serializer,Action_Serializer,Permission_Serializer,Update_Message_Serializer,User_Serializer
 from django.contrib.auth.models import Group, Permission,User
+from django.contrib.auth import get_user_model
 from user_management.models import Registration_All
 from user_management.serializers import Registration_All_Serializer,Registration_All_Show_Serializer
 from user_management.models import Blacklisted
 from user_management.serializers import Blacklisted_Serializer
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
-
+from rest_framework.permissions import IsAuthenticated
 
 class Role_And_Permission_Api_Detail(APIView):
     def get_object(self,pk):
@@ -130,25 +131,7 @@ class Update_Message_Api_List(generics.ListCreateAPIView):
 
 
 
-class Admin_Login_Api(APIView):
-    
-    def post(self,request):
-        email=request.data.get('email')
-        password=request.data.get('password')
-
-        rg=User.objects.filter(email=email).exists()
-        #print(rg,Registration_All.objects.filter(email=email))
-        if(rg==True):
-            usr=User.objects.get(email=email)
-            ck=check_password(password, usr.password)
-            #print(ck)
-            if (ck==True):
-                #print(usr)
-                serializer=User_Serializer(usr)
-                #print(serializer.data)
-                return Response(serializer.data)
-            else:
-                return Response({"Message":"Password Does not Matched"})
-
-        else:
-            return Response({"Message":"Plz register,this username or email does not exist"})
+class Admin_Login_Api(generics.ListCreateAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class=User_Serializer
+    queryset=User.objects.all()
