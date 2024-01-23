@@ -104,13 +104,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
+    #'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    #],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         #'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
         #'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
