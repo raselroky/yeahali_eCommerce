@@ -3,6 +3,7 @@ from .import views
 
 urlpatterns = [
 
-    path('payment/',views.home,name='home'),
+    path('paypal/',views.paypal,name='paypal'),
+    path('stripe/',views.stripe,name='stripe'),
     
 ]

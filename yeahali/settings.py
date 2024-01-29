@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'payments.apps.PaymentsConfig',
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
@@ -163,5 +164,10 @@ CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT',]
 CORS_ALLOW_HEADERS = ['accept','accept-encoding','authorization','content-type','dnt','origin','user-agent','x-csrftoken','x-requested-with',]
 
 
+#paypal 
 PAYPAL_RECIEVER_EMAIL='sb-tmz5g29237875@business.example.com'
 PAYPAL_TEST=True
+
+#stripe
+STRIPE_SECRET_KEY=''
+STRIPE_PUBLISHABLE_KEY='pk_test_51NyDoVBPyua4ViM3knSMNTwrFdpN9xCkCqOOZsXXqcPvOLzKzNknpI5YGA7DR8W2hx7WfBRFleUyUkFe0dda1h72001QY4fJiO'
