@@ -27,6 +27,9 @@ class Update_Message_Serializer(serializers.ModelSerializer):
 class User_Serializer(serializers.ModelSerializer):
     
     #confirmed_password=serializers.CharField(style={'input_type':'password'},write_only=True)
+    #username = serializers.CharField(required=True)
+    #password = serializers.CharField(write_only=True, required=True)
+    
     class Meta:
         model=User
         fields=('id','username','email','password')
@@ -34,11 +37,12 @@ class User_Serializer(serializers.ModelSerializer):
             'password':{'write_only':True}
         }
     
-    def create(self,validated_data):
-        password=validated_data.pop('password',None)
-        instance=self.Meta.model(**validated_data)
-
-        if password is not None:
-            instance.set_password(password)
-        instance.save()
-        return instance
+    def create(self, validated_data):
+        user = User.objects.create(
+                username=validated_data['username'],
+                email=validated_data['email'],
+                password=validated_data['password'])
+        user.set_password(validated_data['password'])
+        user.save()
+        
+        return user
