@@ -17,6 +17,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class Role_And_Permission_Api_Detail(APIView):
@@ -135,25 +136,25 @@ class Update_Message_Api_List(generics.ListCreateAPIView):
 class Admin_Register_Api(APIView):
     def post(self,request):
         serializer=User_Serializer(data=request.data)
-        data={}
         if(serializer.is_valid()):
-            account=serializer.save()
+            serializer.save()
 
-            data['response']="your account has been created"
-            data['username']=account.username
-            data['email']=account.email
-            data['password']=account.password
-
-            token=Token.objects.get(user=account).key
-            data['token']=token
-
-            return Response(data)
+            return Response(serializer.data)
         return Response(serializer.errors)
 
-class Admin_login_Api(generics.ListCreateAPIView):
-    permission_classes=(IsAuthenticated,)
-    queryset=User.objects.all()
-    serializer_class=User_Serializer
+class Admin_login_Api(APIView):
+    def post(self,request):
+        username=request.data['username']
+        password=request.data['password']
+
+        user=User.objects.filter(username=username).first()
+        if user == None:
+            return Response({"Message":"User Not Found !"})
+        if not user.check_password(password):
+            return Response({"Message":"Incorrect Password !"})
+
+        serializer=User_Serializer(user)
+        return Response(serializer.data)
     
 
 

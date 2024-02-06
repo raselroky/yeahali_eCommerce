@@ -29,11 +29,16 @@ class User_Serializer(serializers.ModelSerializer):
     #confirmed_password=serializers.CharField(style={'input_type':'password'},write_only=True)
     class Meta:
         model=User
-        fields=('username','email','password')
+        fields=('id','username','email','password')
         extra_kwargs={
             'password':{'write_only':True}
         }
+    
     def create(self,validated_data):
-            user = User.objects.create_user(validated_data['username'],validated_data['email'],validated_data['password'])
+        password=validated_data.pop('password',None)
+        instance=self.Meta.model(**validated_data)
 
-            return user
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
