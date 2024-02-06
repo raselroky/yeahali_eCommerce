@@ -148,7 +148,7 @@ class Admin_login_Api(APIView):
         password=request.data['password']
 
         user=User.objects.filter(username=username).first()
-        if user is None:
+        if user == None:
             return Response({"Message":"User Not Found !"})
         if not user.check_password(password):
             return Response({"Message":"Incorrect Password !"})
