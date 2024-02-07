@@ -14,10 +14,11 @@ from user_management.models import Blacklisted
 from user_management.serializers import Blacklisted_Serializer
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 
 class Role_And_Permission_Api_Detail(APIView):
@@ -155,8 +156,16 @@ class Admin_login_Api(APIView):
             return Response({"Message":"Incorrect Password !"})
         
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key}, status=status.HTTP_200_OK)
-    
+        serializer=User_Serializer(user)
+        data={}
+        data['id']=user.id
+        data['username']=user.username
+        data['email']=user.email
+        data['token']=token.key
+        return Response(data)
+
+
+
 class Logout_Admin_User_Api(APIView):
     def post(request):
 

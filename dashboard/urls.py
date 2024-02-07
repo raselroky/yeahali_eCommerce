@@ -14,6 +14,7 @@ urlpatterns = [
     #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('adminregisterapi/',views.Admin_Register_Api.as_view(),name='register'),
     path('adminloginapi/',views.Admin_login_Api.as_view(),name='login'),
+    #path('adminloginaccessapi/',views.Admin_Login_Access_Api.as_view()),
     path('log-out/',views.Logout_Admin_User_Api.as_view(),name='logged-out'),
 
     path('rolesapil/',views.Role_And_Permission_Api_List.as_view()),
