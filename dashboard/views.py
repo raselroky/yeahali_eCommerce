@@ -143,6 +143,7 @@ class Admin_Register_Api(APIView):
         return Response(serializer.errors)
 
 class Admin_login_Api(APIView):
+    #permission_classes=[IsAuthenticated,]
     def post(self,request):
         username=request.data['username']
         password=request.data['password']
@@ -152,11 +153,10 @@ class Admin_login_Api(APIView):
             return Response({"Message":"User Not Found !"})
         if not user.check_password(password):
             return Response({"Message":"Incorrect Password !"})
-
-        serializer=User_Serializer(user)
-        return Response(serializer.data)
+        
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=status.HTTP_200_OK)
     
-
 class Logout_Admin_User_Api(APIView):
     def post(request):
 
