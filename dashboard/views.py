@@ -134,26 +134,22 @@ class Update_Message_Api_List(generics.ListCreateAPIView):
     serializer_class=Update_Message_Serializer
 
 
-class Admin_Register_Api(APIView):
-    def post(self,request):
-        serializer=User_Serializer(data=request.data)
-        if(serializer.is_valid()):
-            serializer.save()
-
-            return Response(serializer.data)
-        return Response(serializer.errors)
+class Admin_Register_Api(generics.ListCreateAPIView):
+    queryset=User.objects.all()
+    serializer_class=User_Serializer
 
 class Admin_login_Api(APIView):
     #permission_classes=[IsAuthenticated,]
     def post(self,request):
-        username=request.data['username']
-        password=request.data['password']
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-        user=User.objects.filter(username=username).first()
-        if user == None:
+        user = User.objects.filter(username=username).first()
+        if user is None:
             return Response({"Message":"User Not Found !"})
         if not user.check_password(password):
             return Response({"Message":"Incorrect Password !"})
+        
         
         token, _ = Token.objects.get_or_create(user=user)
         serializer=User_Serializer(user)

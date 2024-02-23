@@ -27,8 +27,8 @@ class Update_Message_Serializer(serializers.ModelSerializer):
 class User_Serializer(serializers.ModelSerializer):
     
     #confirmed_password=serializers.CharField(style={'input_type':'password'},write_only=True)
-    #username = serializers.CharField(required=True)
-    #password = serializers.CharField(write_only=True, required=True)
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
     
     class Meta:
         model=User

@@ -36,9 +36,9 @@ INSTALLED_APPS = [
     'django_countries',
     'paypal.standard.ipn',
     'user_management',
-    'categories',
-    'products',
-    'contact_us',
+    #'categories',
+    #'products',
+    #'contact_us',
     'dashboard',
 ]
 
